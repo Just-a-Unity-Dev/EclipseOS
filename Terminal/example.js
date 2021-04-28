@@ -14,6 +14,17 @@ function getText(addr) {
     return text;
 }
 
+// Example Command - echo
+register_cmd("echo", function(cmd) {
+    var parameters = cmd.split(" ").slice(1);
+    message = '';
+    for (var i = 0; i < parameters.length; i++) {
+        message += parameters[i] + " ";
+    }
+    block_log(message)
+});
+
+
 // Wiki
 
 register_cmd("wiki", async function(cmd) {
