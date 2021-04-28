@@ -37,6 +37,57 @@ register_cmd("clear", function(cmd) {
     clear_all_block();
 })
 
+register_cmd("update", function(cmd) {
+    var parameters = smart_split(cmd, " ", false).slice(1);
+    console.log(parameters);
+    if (parameters.length === 0) {
+        block_log("Error: Unspecified Parameters");
+        return;
+    }
+
+    if (parameters[0].toString().toUpperCase() === "TITLE") {
+        if (parameters.length === 1) {
+            block_log("Error: Unspecified Parameters");
+            return;
+        }
+        update_user_title(parameters[1]);
+        block_log("Success: Updated user title to "+ parameters[1]);
+        return;
+    }
+
+});
+
+register_cmd("print", function(cmd) {
+    var parameters = cmd.split(" ").slice(1);
+    for (var i = 0; i < parameters.length; i++) {
+        block_log(parameters[i]);
+    }
+});
+
+register_cmd("neofetch", function(cmd) {
+    block_log("Model: Toaster");
+    block_log("OS: EclipseOS");
+    block_log("Kernel: 6.9.4-20 Special Edition");
+    block_log("Uptime: 69 years");
+    block_log("Packages: 420691337");
+    block_log("Shell: terminix-6.9");
+    block_log("Resolution: 1920x1080");
+    block_log("DE: what even is this");
+    block_log("WM: idk");
+    block_log("Theme: Classic Terminal");
+    block_log("Terminal: Terminix");
+    block_log("CPU: Bruh Core I96");
+    block_log("GPU: Eclipse GeeForce RTG 3690 DirectY 69.00");
+    block_log("Memory: 58gb / 86pb");
+
+});
+
+register_cmd("hello_world", function(cmd) {
+    block_log("Hello, world!");
+});
+
+
+
 const getUA = () => {
     let device = "Unknown";
     const ua = {
