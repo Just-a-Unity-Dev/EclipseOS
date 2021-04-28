@@ -14,13 +14,25 @@ function getText(addr) {
     return text;
 }
 
-// Example Command - Hey
+// Wiki
 
-register_cmd("hey", function(cmd) {
+register_cmd("wiki", async function(cmd) {
     var parameters = cmd.split(" ").slice(1);
+    var query = '';
+    alert(performSearch(query));
     for (var i = 0; i < parameters.length; i++) {
-        block_log("Hello " + parameters[i]);
+        query = parameters[i];
     }
+    try {
+        const results = await performSearch(query);
+        if (results.query.searchinfo.totalhits === 0) {
+          
+          block_log('No results found. Try different keywords');
+        }
+        block_log(wikipediaSearch(results));
+      } catch (err) {
+        block_log('Failed to search wikipedia');
+      }
 });
 
 // Example Command - Sum
