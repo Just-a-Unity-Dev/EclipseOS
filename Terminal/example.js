@@ -45,6 +45,10 @@ register_cmd("print", function(cmd) {
     }
 });
 
+function swapStyleSheet(sheet) {
+    document.getElementById("pagestyle").setAttribute("href", sheet);
+}
+
 register_cmd("settings", function(cmd) {
     var parameters = smart_split(cmd, " ", false).slice(1);
     console.log(parameters);
@@ -65,6 +69,16 @@ register_cmd("settings", function(cmd) {
             }
             update_user_title(parameters[2]);
             block_log("Success: Updated user title to "+ parameters[2]);
+            return;
+        }
+
+        if (parameters[1].toString().toUpperCase() === "THEME"){
+            if (parameters.length === 2) {
+                block_log("Error: Unspecified Parameters");
+                return;
+            }
+            swapStyleSheet("themes/"+parameters[2]+".css")
+            block_log("Success: Updated user theme to "+ parameters[2]);
             return;
         }
     } else if (parameters[0].toString().toUpperCase() == "GET"){
@@ -103,7 +117,7 @@ register_cmd("neofetch", function(cmd) {
     block_log("Resolution: 1920x1080");
     block_log("DE: what even is this");
     block_log("WM: idk");
-    block_log("Theme: Classic Terminal");
+    block_log("Theme: " + getCurrentStyleSheet(false));
     block_log("Terminal: Terminix");
     block_log("CPU: Bruh Core I96");
     block_log("GPU: Eclipse GeeForce RTG 3690 DirectY 69.00");
@@ -115,7 +129,19 @@ register_cmd("hello_world", function(cmd) {
     block_log("Hello, world!");
 });
 
+function getCurrentStyleSheet(plain){
+    if (plain == true){
+        return document.getElementById("pagestyle").getAttribute("href")
+    }else if (plain == false){
+        var currentStyleSheet = document.getElementById("pagestyle").getAttribute("href")
+        if (currentStyleSheet == "themes/classic.css"){
+            return "Classic"
+        } else if (currentStyleSheet == "themes/retro.css"){
+            return "Retro"
+        }
+    }
 
+}
 
 const getUA = () => {
     let device = "Unknown";
