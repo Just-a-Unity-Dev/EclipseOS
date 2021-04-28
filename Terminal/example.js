@@ -1,5 +1,5 @@
 log(getText('text.html'))
-log("Welcome to Terminix for EclipseOS!\n\n Made by Duckling and Eclipse");
+log("Welcome to Terminix for EclipseOS!\n\n Made by Duckling, Rstar and Eclipse");
 
 function getText(addr) {
     var text = '';
@@ -127,8 +127,8 @@ register_cmd("neofetch", function(cmd) {
     block_log("Packages: 420691337");
     block_log("Shell: terminix-6.9");
     block_log("Resolution: 1920x1080");
-    block_log("DE: what even is this");
-    block_log("WM: idk");
+    block_log("DE: N/A");
+    block_log("WM: N/A");
     block_log("Theme: " + getCurrentStyleSheet(false));
     block_log("Terminal: Terminix");
     block_log("CPU: Bruh Core I96");
