@@ -5,7 +5,7 @@ async function performSearch(searchQuery) {
       throw Error(response.statusText);
     }
     const json = await response.json();
-    console.log(json);
+    return json
   }
   async function wikipediaSearch(results) {
 
