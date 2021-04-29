@@ -57,16 +57,36 @@ register_cmd("sum", function(cmd) {
     block_log("Sum: " + sum);
 });
 
+// Math Command!!
+
+register_cmd("math", function(cmd) {
+    var parameters = smart_split(cmd, " ", false).slice(1);
+    var output = 0;
+
+    var add = ["+","add","sum"]
+    var subtract = ["-", "subtract", "sub", "difference", "diff"]
+    var multiply = ["*", "multiply", "mult"]
+    var divide = ["/", "divide", "div"]
+    var exponent = ["^", "power", "exponent"]
+
+    if (add.includes(parameters[1])){
+        output = parseInt(parameters[0]) + parseInt(parameters[2])
+    }else if (subtract.includes(parameters[1])){
+        output = parseInt(parameters[0]) - parseInt(parameters[2])
+    }else if (multiply.includes(parameters[1])){
+        output = parseInt(parameters[0]) * parseInt(parameters[2])
+    }else if (divide.includes(parameters[1])){
+        output = parseInt(parameters[0]) / parseInt(parameters[2])
+    }else if (exponent.includes(parameters[1])){
+        output = Math.pow(parseInt(parameters[0]),parseInt(parameters[2]))
+    }
+
+    block_log(output);
+});
+
 register_cmd("clear", function(cmd) {
     clear_all_block();
 })
-
-register_cmd("print", function(cmd) {
-    var parameters = cmd.split(" ").slice(1);
-    for (var i = 0; i < parameters.length; i++) {
-        block_log(parameters[i]);
-    }
-});
 
 function swapStyleSheet(sheet) {
     document.getElementById("pagestyle").setAttribute("href", sheet);
@@ -104,13 +124,17 @@ register_cmd("settings", function(cmd) {
             block_log("Success: Updated user theme to "+ parameters[2]);
             return;
         }
-    } else if (parameters[0].toString().toUpperCase() == "GET"){
+    } else if (parameters[0].toString().toUpperCase() == "GET") {
         if (parameters.length === 1) {
             block_log("Error: Unspecified Parameters");
             return;
         }
-        if (parameters[1].toString().toUpperCase() === "TITLE"){
+        if (parameters[1].toString().toUpperCase() === "TITLE") {
             block_log("Title: " + terminal_user_title);
+            return;
+        }
+        if (parameters[1].toString().toUpperCase() === "THEME") {
+            block_log("Theme: " + getCurrentStyleSheet(false));
             return;
         }
     }
@@ -161,6 +185,14 @@ function getCurrentStyleSheet(plain){
             return "Classic"
         } else if (currentStyleSheet == "themes/retro.css"){
             return "Retro"
+        }else if (currentStyleSheet == "themes/bloodhell.css"){
+            return "Blood Hell"
+        }else if (currentStyleSheet == "themes/light.css"){
+            return "Light Theme"
+        }else if (currentStyleSheet == "themes/nautical.css"){
+            return "Nautical"
+        }else if (currentStyleSheet == "themes/ugly.css"){
+            return "Ugly Theme"
         }
     }
 
