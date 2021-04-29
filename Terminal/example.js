@@ -61,12 +61,12 @@ register_cmd("sum", function(cmd) {
 
 // Math Command!!
 
-<<<<<<< HEAD
 register_cmd("echo", function(cmd) {
     var parameters = cmd.split(" ").slice(1);
     for (var i = 0; i < parameters.length; i++) {
         block_log(parameters[i]);
-=======
+    }
+});
 register_cmd("math", function(cmd) {
     var parameters = smart_split(cmd, " ", false).slice(1);
     var output = 0;
@@ -87,7 +87,6 @@ register_cmd("math", function(cmd) {
         output = parseInt(parameters[0]) / parseInt(parameters[2])
     }else if (exponent.includes(parameters[1])){
         output = Math.pow(parseInt(parameters[0]),parseInt(parameters[2]))
->>>>>>> 29dd6400f39ba42d3b2148f16cb9a958a15ea6b9
     }
 
     block_log(output);
