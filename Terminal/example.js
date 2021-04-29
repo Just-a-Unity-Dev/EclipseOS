@@ -1,6 +1,8 @@
 log(getText('text.html'))
 log("Welcome to Terminix for EclipseOS!\n\n Made by Duckling, Rstar and Eclipse");
 
+swapStyleSheet(getCookie("theme"))
+
 function getText(addr) {
     var text = '';
     var xhr= new XMLHttpRequest();
@@ -37,13 +39,13 @@ register_cmd("wiki", async function(cmd) {
     try {
         const results = await performSearch(query);
         if (results.query.searchinfo.totalhits === 0) {
-          
-          block_log('No results found. Try different keywords');
+
+            block_log('No results found. Try different keywords');
         }
         block_log(wikipediaSearch(results));
-      } catch (err) {
+    } catch (err) {
         block_log('Failed to search wikipedia');
-      }
+    }
 });
 
 // Example Command - Sum
@@ -89,7 +91,15 @@ register_cmd("clear", function(cmd) {
 })
 
 function swapStyleSheet(sheet) {
-    document.getElementById("pagestyle").setAttribute("href", sheet);
+    var stylesheet = document.getElementById("pagestyle")
+
+    stylesheet.setAttribute("href", sheet);
+
+    var stylename = stylesheet.getAttribute("href");
+
+    document.cookie = "theme=" + stylename + ";";
+    console.log(getCookie("theme"))
+    console.log(stylename)
 }
 
 register_cmd("settings", function(cmd) {
@@ -120,9 +130,16 @@ register_cmd("settings", function(cmd) {
                 block_log("Error: Unspecified Parameters");
                 return;
             }
-            swapStyleSheet("themes/"+parameters[2]+".css")
-            block_log("Success: Updated user theme to "+ parameters[2]);
-            return;
+            if (parameters[2].toString().toUpperCase() === "RESET"){
+                swapStyleSheet("themes/classic.css");
+                block_log("Success: Updated user theme to Classic");
+                return;
+            }else{
+                swapStyleSheet("themes/"+parameters[2]+".css")
+                block_log("Success: Updated user theme to "+ parameters[2]);
+                return;
+            }
+
         }
     } else if (parameters[0].toString().toUpperCase() == "GET") {
         if (parameters.length === 1) {
@@ -139,19 +156,6 @@ register_cmd("settings", function(cmd) {
         }
     }
 
-});
-
-register_cmd("open", function(cmd){
-    var parameters = smart_split(cmd, " ", false).splice(1)
-
-    if (parameters.length === 0) {
-        block_log("Error: Unspecified Parameters");
-        return;
-    }
-
-    if (parameters[0] == "calculator"){
-        window.open('calculator/calc.html', 'name', 'width=600,height=400')
-    }
 });
 
 register_cmd("neofetch", function(cmd) {
@@ -175,6 +179,22 @@ register_cmd("neofetch", function(cmd) {
 register_cmd("hello_world", function(cmd) {
     block_log("Hello, world!");
 });
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 function getCurrentStyleSheet(plain){
     if (plain == true){
