@@ -50,7 +50,7 @@ register_cmd("clear", function(cmd) {
     clear_all_block();
 })
 
-register_cmd("print", function(cmd) {
+register_cmd("echo", function(cmd) {
     var parameters = cmd.split(" ").slice(1);
     for (var i = 0; i < parameters.length; i++) {
         block_log(parameters[i]);
@@ -74,15 +74,15 @@ register_cmd("settings", function(cmd) {
             block_log("Error: Unspecified Parameters");
             return;
         }
-        if (parameters[1].toString().toUpperCase() === "TITLE"){
+        if (parameters[1].toString().toUpperCase() === "USER"){
             if (parameters.length === 2) {
                 block_log("Error: Unspecified Parameters");
                 return;
             }
-            update_user_title(parameters[2]);
-            block_log("Success: Updated user title to "+ parameters[2]);
+            update_user_title(`${parameters[2]}@${getUA()}`);
+            block_log("Success: Updated user name to "+ parameters[2]);
             return;
-        }
+        }   
 
         if (parameters[1].toString().toUpperCase() === "THEME"){
             if (parameters.length === 2) {
@@ -98,8 +98,8 @@ register_cmd("settings", function(cmd) {
             block_log("Error: Unspecified Parameters");
             return;
         }
-        if (parameters[1].toString().toUpperCase() === "TITLE"){
-            block_log("Title: " + terminal_user_title);
+        if (parameters[1].toString().toUpperCase() === "USER"){
+            block_log("User: " + terminal_user_title);
             return;
         }
     }
@@ -120,8 +120,7 @@ register_cmd("open", function(cmd){
 });
 
 register_cmd("neofetch", function(cmd) {
-    block_log("Model: Toaster");
-    block_log("OS: " + getUA());
+    block_log("Host: " + terminal_user_title);
     block_log("Kernel: 6.9.4-20 Special Edition");
     block_log("Uptime: 69 years");
     block_log("Packages: 420691337");
@@ -158,7 +157,7 @@ function getCurrentStyleSheet(plain){
 const getUA = () => {
     let device = "Unknown";
     const ua = {
-        "Generic Linux": /Linux/i,
+        "Linux": /Linux/i,
         "Android": /Android/i,
         "BlackBerry": /BlackBerry/i,
         "Bluebird": /EF500/i,
@@ -176,4 +175,4 @@ const getUA = () => {
     return device;
 }
 
-update_user_title(getUA());
+update_user_title(`User@${getUA()}`);
